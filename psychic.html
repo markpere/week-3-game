@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Psychic Game</title>
+</head>
+<body>
+	<h1>The Psychic Game</h1>
+	<p>Guess what letter I'm thinking of!</p>
+	<!-- I'm giving the p-tags spans and ids because I want the content listed after them to be dynamic -->
+	<p>Wins: <span id="winCount"></span></p>
+	<p>Losses: <span id="lossCount"></span></p>
+	<p>Guesses Left: <span id="guessCounter"></span></p>
+	<p>Your Guesses So Far: <span id="guesses"></span></p>
+
+<script type="text/javascript">
+	// First I need to define my variables
+
+	var winCount = 0;
+	var lossCount = 0;
+	var guessCounter = 9;
+	var guessesSoFar = [];
+	var lettersComputerChosen;
+
+// Now I need an Initialize Game function, so I can always return the game to this state depending on wins or losses.
+
+	function initializeGame(){
+		document.getElementById("guesses").innerHTML = "";
+		lettersComputerChosen = letters[Math.floor(Math.random() * letters.length)];
+		document.getElementById("guessCounter").innerHTML = "";
+		guessCounter = 9;
+		guessesSoFar = [];
+	}
+	
+	// The computer needs an array of letters to chose from
+
+	var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+	
+	// In order for the game to start, the computer needs to randomly pick a letter
+	initializeGame();
+	
+	// Now the user guesses a letter, and the program needs to recognize what letter is chosen
+
+	document.onkeyup = function(event) {
+		var userChosen = String.fromCharCode(event.keyCode).toLowerCase();
+		// Now, everytime they guess, the counter will decrement
+
+		guessCounter--;
+
+		// Show the user the letters they have guessed so far
+
+		guessesSoFar.push(userChosen);
+
+		/* Now I need to create an array to store the guesses the user has made
+
+		var lettersGuessed = [];
+
+		// And I need to store the guessed letters in that array
+
+		lettersGuessed.push(userChosen)
+
+		// Now I need to make it so that the user can't select the same letter twice
+
+		if (lettersGuessed.indexOf(userChosen !==false)) 
+		
+		I tried to figure this out, but I couldn't.
+
+			*/
+
+		// Verify that the letter the user chosed is the same as the letter the computer chose
+
+		if (userChosen === lettersComputerChosen){
+			winCount++;
+			initializeGame ();
+		} else {
+			// If the player doesn't have any guesses left, then increment the loss count
+			if (guessCounter === 0){
+				lossCount++;
+				initializeGame ();
+			}
+		}
+
+
+		document.querySelector("#winCount").innerHTML = winCount;
+		document.querySelector("#lossCount").innerHTML = lossCount;
+		document.querySelector("#guessCounter").innerHTML = guessCounter;
+		document.querySelector("#guesses").innerHTML = guessesSoFar.join(", ");
+	};
+
+
+</script>
+	
+
+</body>
+</html>
